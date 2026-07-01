@@ -21,7 +21,7 @@ func main() {
 	data, err := csvreader.ReadCSV(filePath)
 
 	if err != nil {
-		fmt.Printf("Can't read file %v\n", err)
+		fmt.Printf("Can't read file: %v\n", err)
 		return
 	}
 
