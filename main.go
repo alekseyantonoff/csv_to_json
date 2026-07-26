@@ -1,7 +1,8 @@
 package main
 
 import (
-	"csv_to_json/csvreader"
+	"csv_to_json/converter"
+	"csv_to_json/reader"
 	"fmt"
 	"os"
 )
@@ -16,14 +17,21 @@ func main() {
 
 	filePath := os.Args[1]
 
-	fmt.Printf("Try to read %s\n", filePath)
+	fmt.Printf("Attempt to read the file %s\n", filePath)
 
-	data, err := csvreader.ReadCSV(filePath)
+	data, err := reader.ReadCSV(filePath)
 
 	if err != nil {
-		fmt.Printf("Can't read file: %v\n", err)
-		return
+		fmt.Fprintf(os.Stderr, "Can't read file: %v\n", err)
+		os.Exit(1)
 	}
 
-	fmt.Println(data)
+	fmt.Println("Attempt to convert to JSON...")
+	jsonString, err := converter.CSVToJSON(data)
+
+	if err != nil {
+		fmt.Fprintf(os.Stderr, "Can't convert: %v\n", err)
+		os.Exit(1)
+	}
+	fmt.Println(jsonString)
 }
